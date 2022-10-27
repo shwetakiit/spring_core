@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--  default-init-method="myOwnBeanIntialization" default-destroy-method="myDestroy"> --><!-- Globally init and destroy method defined .apply for all the beans -->
+  
+  <bean id="triangle" class="kumari.shweta.Triangle">
+  <constructor-arg value="Equilateral"/>
+ <constructor-arg  type ="int" value="20" />
+  </bean>  
+
+<!-- Setter Injection -->
+<!-- <property name="type" value="Equilateral"/> -->
+
+ <!--     Here only one constructor arg it will assign value in construction which has only one parameter 
+similarly if multiple parameter with construction matching construction will be intialized -->
+
+<!--  <constructor-arg value="Equilateral"/> -->
+
+<!-- If same no of parameter in constructor which constructor has been intialized based on datatype passed in constructor arg 
+or if we don't pass data type spring will consider spring  data type and it will intialize string type of parametrized constructor 
+-->
+
+<!--  It will take string  parameter constructor  -->
+
+<!--   <constructor-arg  type ="int" value="20" /> -->
+
+<!--  
+ <bean id="triangle1" class="kumari.shweta.Triangle1">
+
+<property name="pointA" ref="zeroPoint" />  -->
+
+ <!-- Inner bean concept in place if ref we can directly provide bean -->
+ <!--  
+ <property name="pointB"  ref="onePoint"/>  -->
+  <!--  <bean id="onePoint" class="kumari.shweta.Point">
+<property name="x" value="10" />
+<property name="y" value="20" />
+</bean>   -->
+<!--  </property> 
+<property name="pointC" ref="twoPoint" /> --><!--  
+
+ <property name="pointB"  ref="twoPoint"/> 
+</bean>
+-->
+
+<bean id ="triangle3" class="kumari.shweta.Triangle">
+ <!--  <property name="pointA" ref="zeroPoint" />-->
+ <property name="pointB" ref="onePoint" />
+ <property name="pointC" ref="twoPoint" /> 
+</bean>
+
+<bean id ="triangle2" class="kumari.shweta.Triangle1">
+ <property name="pointA" ref="zeroPoint" />
+ <property name="pointB" ref="onePoint" />
+ <property name="pointC" ref="twoPoint" /> 
+</bean>
+
+
+<bean id ="triangle4" class="kumari.shweta.Triangle3" abstract="true">
+ <property name="pointA" ref="zeroPoint" />
+ <property name="pointB" ref="onePoint" />
+ <property name="pointC" ref="twoPoint" /> 
+</bean>
+<!--  Autowiring we can remove ref   -->
+<!--  
+ <bean id="triangle1" class="kumari.shweta.Triangle1" autowire="byName">
+</bean> 
+
+-->
+
+<!-- Bean inheritance concept -->
+
+<bean id="beanInheritance" class="kumari.shweta.BeanInheritancePOC" parent="triangle4"> </bean>
+
+
+
+<!--  List property/Collections   -->
+
+ 
+<bean id ="listTriangle" class="kumari.shweta.ListPointTriangle">
+<property name="prop">
+<props>
+<prop key="username">skumari</prop>
+<prop key="password">shweta</prop>
+</props>
+</property>
+<property name="hashMap">
+<map>
+<entry key="name" value="Shweta Kumari"></entry>
+<entry key="Address" value ="Bangalore"></entry>
+</map>
+</property>
+<property name="points">
+<list>
+<ref bean="zeroPoint" />
+<ref bean="onePoint" />
+<ref bean="twoPoint" />
+</list>
+
+</property>
+
+</bean>
+
+
+
+ 
+<bean id = "autowireTringle" class="kumari.shweta.TriangleAutowire" autowire="byName" scope="singleton">
+</bean>
+<bean id = "autowireTringle1" class="kumari.shweta.TriangleAutowire" autowire="byName" scope="singleton">
+</bean>
+
+<bean id="onePoint" class="kumari.shweta.Point" scope="singleton">
+<property name="x" value="10" />
+<property name="y" value="20" />
+</bean>  
+
+<bean id="zeroPoint" class="kumari.shweta.Point" scope="singleton">
+<property name="x" value="0" />
+<property name="y" value="0" />
+</bean>
+
+<bean id="twoPoint" class="kumari.shweta.Point" scope="singleton">
+<property name="x" value="30"/>
+<property name="y" value="40" />
+</bean>
+
+
+<!-- With Autowire -->
+<!-- autowire byName ie it check member variable of bean class maching with any bean of id same as member variable  -->
+<!-- 
+<bean id = "autowireTringle" class="kumari.shweta.TriangleAutowire" autowire="byName">
+</bean> -->
+
+
+<!-- If we have to use without Autowire  -->
+<!-- <bean id ="autowireTringle" class="kumari.shweta.TriangleAutowire" >
+<property name="pointA" ref="pointA"></property>
+<property name="pointB" ref="pointB"></property>
+<property name="pointC" ref="pointC"></property>
+</bean> -->
+
+<!--  Beandefination inheritance concept --> 
+<!-- <bean id="parentTriangel" class="kumari.shweta.TriangleAutowire" >
+<property name="pointA" ref="pointA"></property>
+</bean> -->
+<!-- here it will inherit pointA from Parent -->
+<!-- <bean id="childTriangle" class="kumari.shweta.TriangleAutowire" parent="parentTriangel">
+<property name="pointB" ref="pointB"></property>
+<property name="pointC" ref="pointC"></property>
+</bean>
+ -->
+<!-- Bean life cycle -->
+
+
+<!--   <bean id ="beanlifecycle" class="kumari.shweta.BeanLifeCycle" init-method="myOwnBeanIntialization" destroy-method="myDestroy">  -->
+ <bean id ="beanlifecycle" class="kumari.shweta.BeanLifeCycle"> 
+ <property name="pointA" ref="pointA"></property>
+<property name="pointB" ref="pointB"></property>
+<property name ="pointC" ref="pointC"></property>
+</bean> 
+
+
+<bean id ="beanlifecycle1" class="kumari.shweta.BeanLifeCycleWithAnnotation"></bean> 
+
+<bean id="pointA" class="kumari.shweta.Point">
+<qualifier value="test" />
+<property name="x" value="10" />
+<property name="y" value="20"/>
+</bean>  
+
+
+<bean id="pointB" class="kumari.shweta.Point">
+<property name="x" value="0" />
+<property name="y" value="0" />
+</bean> 
+
+<!-- <bean id="center" class="kumari.shweta.Point"> -->
+
+<bean id="pointC" class="kumari.shweta.Point">
+<property name="x" value="30"/>
+<property name="y" value="40" />
+</bean>
+
+
+<!-- Bean post processor class registered in bean configuration file  here we are not creating 
+bean id for postprocesssor class becoz class reference of beanPostProcessor class has not used any where 
+
+ -->
+ 
+<!--   <bean class="kumari.shweta.DisplayNameBeanPostProcessor"></bean> -->
+ 
+ <!-- Bean factory post proccessor -->
+ <!--  <bean class="kumari.shweta.BeanFactoryPostProcessorDemo" /> -->
+ <!--  
+ <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+ <property name="locations" value="C:\Users\SKUMARI\Downloads\Spring\Spring_Pratice\src\kumari\shweta\beanfactorypostprocessor.properties" />
+ </bean>
+-->
+ 
+<!--  <bean id="circle1" class="kumari.shweta.CircleShape"> -->
+<!-- If we comment this property it will not set property value and we will get null pointer 
+exception so we can handle this null pointer while bean intialization with @Required annotation -->
+<!--    <property name="center" ref="pointA"/>
+</bean>
+<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"></bean>
+
+-->
+<!-- Autowired concept for center ie. Pointclass beam defination -->
+<bean id ="autowire" class="kumari.shweta.AutoWireWithCircleShape">
+
+<!--  Here we need to set Property for Point class but there is multiple bean defination for same Point call in this file -->
+
+</bean>
+<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
+
+<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"></bean>
+ -->
+ <!--Replacement of above postProcessior bean -->
+ 
+ <bean id ="circleshape" class="kumari.shweta.CircleShape">
+ </bean>
+ 
+ <context:annotation-config/>
+ <!-- For scaning componenet -->
+ <!--  <context:component-scan base-package="kumari.shweta"></context:component-scan> -->
+ 
+ 
+ 
+ <!-- innser class bean -->
+ <bean id ="innerClassBean" class="kumari.shweta.SomeThing$OtherThing"></bean>
+ 
+ <!--  bean instation with static factory method -->
+ <bean id="factoryMethod" class="kumari.shweta.FactoryMethodBeanInstantiation" factory-method="getInstance" >
+ </bean>
+ 
+ <!--  Bean instatiation using instance factory method -->
+ <bean id="serviceLocator" class="kumari.shweta.DefaultServiceLocator">
+ </bean>
+ <bean id="clientService" factory-bean="serviceLocator" factory-method="createClientServiceInstance">
+ </bean>
+ 
+ 
+ <!-- Circular Depenedecy -->
+ <!--  
+ <bean id="circulardep1" class="kumari.shweta.CircularDependency2" >
+ <constructor-arg ref="circulardep2"></constructor-arg>
+ </bean>
+ 
+ <bean id="circulardep2" class="kumari.shweta.CircularDependency1" >
+ <constructor-arg ref="circulardep1"></constructor-arg>
+ </bean>
+ 
+ -->
+ 
+ <!-- reference bean  not supported after 4.0 -->
+ <!--  <bean id="accountService" class="kumari.shweta.AccountService">
+ <property name="target">
+ <ref parent="accountService"></ref>
+ </property>
+ </bean>
+ 
+ -->
+ 
+ <bean id="waredemo" class="kumari.shweta.ApplicationContextAwareDemo"></bean>
+ 
+ <!-- Required annotation demo  -->
+ <bean id="required" class="kumari.shweta.RequiredAnnotationDemo"></bean>
+ <!-- Message Source concept  -->
+ <bean id ="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+ <property name="basenames">
+ <list>
+ <value>Mymessages</value>
+ </list>
+ 
+ </property>
+ </bean>
+</beans>
+
